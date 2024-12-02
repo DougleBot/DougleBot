@@ -9,9 +9,20 @@ main {
     flex: 1; /* Pushes the footer down */
 }
 
-footer {
-    background: #343a40;
+body {
+    background: url('/static/images/background.jpg') no-repeat center center fixed;
+    background-size: cover;
     color: white;
-    padding: 1rem;
+}
+
+footer {
+    background-color: #343a40;
+    color: white;
+    padding: 1rem 0;
     text-align: center;
+}
+
+h1 {
+    font-size: 3rem;
+    font-weight: bold;
 }
