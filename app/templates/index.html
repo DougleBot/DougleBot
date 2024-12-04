@@ -15,20 +15,20 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">DougleBot</a>
+            <a class="navbar-brand" href="{{ url_for('main.index') }}">DougleBot</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a class="nav-link active" aria-current="page" href="{{ url_for('main.index') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
+                        <a class="nav-link" href="{{ url_for('main.about') }}">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
+                        <a class="nav-link" href="{{ url_for('main.contact') }}">Contact</a>
                     </li>
                 </ul>
             </div>
@@ -39,7 +39,7 @@
     <main class="container text-center mt-5 flex-grow-1">
         <h1 class="display-4 animate__animated animate__bounce">Welcome to <span class="text-primary">{{ title }}</span></h1>
         <p class="lead">Your Flask app just got a makeover!</p>
-        <a href="#" class="btn btn-primary btn-lg">Click Me</a>
+        <a href="{{ url_for('main.about') }}" class="btn btn-primary btn-lg">Learn More</a>
     </main>
 
     <!-- Footer -->
