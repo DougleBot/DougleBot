@@ -10,8 +10,56 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        /* Additional styling for Origami Hourglass */
+        body {
+            margin: 0;
+        }
+
+        #triangleContainer {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 20px auto;
+        }
+
+        .triangle {
+            width: 0;
+            height: 0;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            position: absolute;
+            transform-origin: 50% 100%;
+        }
+
+        #labels {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #saveBtn {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
 </head>
 <body class="bg-dark text-white d-flex flex-column min-vh-100">
+    <!-- Origami Hourglass Section -->
+    <div id="triangleContainer"></div>
+    <div id="labels">
+        <p>Red: Seconds, Orange: Minutes, Yellow: Hours, Green: Days, Blue: Months, Purple: Years</p>
+    </div>
+    <button id="saveBtn" class="btn btn-success">Save Image</button>
+
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
@@ -51,5 +99,64 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Origami Hourglass Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const container = document.getElementById('triangleContainer');
+            const targetDate = new Date('2024-12-21T12:12:12');
+            const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
+            let triangles = [];
+
+            function createTriangle(size, color) {
+                let triangle = document.createElement('div');
+                triangle.className = 'triangle';
+                triangle.style.borderLeft = `${size / 2}px solid transparent`;
+                triangle.style.borderRight = `${size / 2}px solid transparent`;
+                triangle.style.borderBottom = `${size}px solid ${color}`;
+                container.appendChild(triangle);
+                return triangle;
+            }
+
+            for (let i = 0; i < 6; i++) {
+                triangles.push(createTriangle(50 * (i + 1), colors[i]));
+            }
+
+            function calculateTimeLeft() {
+                const now = new Date();
+                const timeLeft = targetDate - now;
+
+                const seconds = Math.floor((timeLeft / 1000) % 60);
+                const minutes = Math.floor((timeLeft / 1000 / 60) % 60);
+                const hours = Math.floor((timeLeft / (1000 * 60 * 60)) % 24);
+                const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24) % 30.44);
+                const months = Math.floor(timeLeft / (1000 * 60 * 60 * 24 * 30.44) % 12);
+                const years = Math.floor(timeLeft / (1000 * 60 * 60 * 24 * 365));
+
+                return [seconds, minutes, hours, days, months, years];
+            }
+
+            function animateTriangles() {
+                setInterval(() => {
+                    const [seconds, minutes, hours, days, months, years] = calculateTimeLeft();
+                    const angles = [seconds * 6, minutes * 6, hours * 30, days * 12, months * 30, years * 30];
+                    triangles.forEach((triangle, index) => {
+                        triangle.style.transform = `rotate(${angles[index]}deg)`;
+                    });
+                }, 1000);
+            }
+
+            document.getElementById('saveBtn').addEventListener('click', function() {
+                html2canvas(document.getElementById('triangleContainer')).then(function(canvas) {
+                    var link = document.createElement('a');
+                    link.download = 'origami-hourglass.png';
+                    link.href = canvas.toDataURL();
+                    link.click();
+                });
+            });
+
+            animateTriangles();
+        });
+    </script>
 </body>
 </html>
