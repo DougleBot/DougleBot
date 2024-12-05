@@ -11,6 +11,10 @@ def index():
 def about():
     return render_template("about.html", title="About DougleBot")
 
+@main.route('/origami-hourglass')
+def origami_hourglass():
+    return render_template('origami_hourglass.html', title="Origami Hourglass", year=2024)
+
 @main.route("/contact", methods=["GET", "POST"])
 def contact():
     if request.method == "POST":
